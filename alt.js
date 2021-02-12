@@ -2,43 +2,44 @@
 /*global $, jQuery, qTranslateConfig, ajaxurl*/
 
 jQuery(document).ready(function ($) {
-    'use strict';
-
+    "use strict";
     function wpa_update_alt_field($attachment){
-        var alt_id = $('#wpa_mc_' + $attachment);
-        alt_id.next().show();
-        var alt_text = $('#wpa_mc_' + $attachment).val();
+        var altID = $("#wpa_mc_" + $attachment);
+        altID.next().show();
+        var altText = altID.val();
 
-        if( $('#wpa_mc_' + $attachment).parents('.tt-m-alt').find('input').length > 1 ) {
+        if(altID.parents(".tt-m-alt").find("input").length > 1) {
             var langs = qTranslateConfig.qtx.getLanguages();
-            alt_text = '';
+            altText = "";
             $.each(langs, function(lang){
-                alt_text += '[:' + lang + ']' + $('input[name="qtranslate-fields[wpa_mc_qtx]['+lang+']"]').val();
+                altText += "[:" + lang + "]" + $("input[name=\"qtranslate-fields[wpa_mc_qtx][" + lang + "]\"").val();
             });
-            alt_text += '[:]';
+            altText += "[:]";
         }
 
         $.post(ajaxurl, {
             action: 'wpa_media_alt_update',
             'post_id': $attachment,
-            'alt_text': alt_text
+            'altText': altText
         }, function (alt) {
             if (alt) {
-                alt_id.next().hide();
+                altID.next().hide();
             }
         });
     }
 
-    $(this).on('keydown', '.tt-m-alt input.wpa_mc_qtx', function(event){
-        if(event.keyCode === 13) {
+    $(this).on("keydown", ".tt-m-alt input.wpa_mc_qtx", function(e) {
+        var key = e.which || e.keyCode || 0;
+        if(key === 13) {
             $(this).blur();
             return false;
         }
-    }).on('blur', '.tt-m-alt input.wpa_mc_qtx', function () {
-        if( $(this).parents('.tt-m-alt').find('input').length > 1 ) {
-            $('input[name="qtranslate-fields[wpa_mc_qtx][' + qTranslateConfig.activeLanguage + ']"]').val( $(this).val() );
-        }
-        wpa_update_alt_field( $(this).attr("id").replace('wpa_mc_', '') );
+    })
+      .on("blur", ".tt-m-alt input.wpa_mc_qtx", function() {
+          if($(this).parents(".tt-m-alt").find("input").length > 1) {
+              $("input[name=\"qtranslate-fields[wpa_mc_qtx][" + qTranslateConfig.activeLanguage + "]\"]").val($(this).val());
+          }
+          wpa_update_alt_field($(this).attr("id").replace("wpa_mc_", ""));
         return false;
     });
 
