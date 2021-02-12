@@ -18,9 +18,10 @@ jQuery(document).ready(function ($) {
         }
 
         $.post(ajaxurl, {
-            action: 'wpa_media_alt_update',
-            'post_id': $attachment,
-            'altText': altText
+            action: "wpa_media_alt_update",
+            "_wpnonce": $("[name=\"_wpnonce-" + $attachment + "\"]").val(),
+            "post_id": $attachment,
+            "alt_text": altText
         }, function (alt) {
             if (alt) {
                 altID.next().hide();
@@ -40,7 +41,7 @@ jQuery(document).ready(function ($) {
               $("input[name=\"qtranslate-fields[wpa_mc_qtx][" + qTranslateConfig.activeLanguage + "]\"]").val($(this).val());
           }
           wpa_update_alt_field($(this).attr("id").replace("wpa_mc_", ""));
-        return false;
-    });
+          return false;
+      });
 
 });
