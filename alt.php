@@ -74,7 +74,7 @@ function wpa_media_update() {
 	$wpa_media_post_id  = absint(filter_input(INPUT_POST, 'post_id'));
 	$wpa_media_alt_text = wp_strip_all_tags(filter_input(INPUT_POST, 'alt_text'));
 	if( ! wp_verify_nonce(filter_input(INPUT_POST, '_wpnonce'), 'nonce-' . $wpa_media_post_id)) {
-		die('Security check');
+		exit('Security check');
 	}
 
 	if( ! empty($wpa_media_alt_text)) {
