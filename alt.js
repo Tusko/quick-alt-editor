@@ -3,6 +3,9 @@
 
 jQuery(document).ready(function ($) {
     "use strict";
+    if($(".wp-list-table.media").length > 0 && location.search.indexOf('list') === -1) {
+        location.search = '?mode=list'
+    }
     function wpa_update_alt_field($attachment){
         var altID = $("#wpa_mc_" + $attachment);
         altID.next().show();

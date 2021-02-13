@@ -36,7 +36,7 @@ function wpa_media_field_input( $column ) {
 	if($column == 'wpa_media-column') {
 		global $post;
 		?>
-		<div id="wrapper-<?php echo absint($post->ID); ?>" class="tt-m-alt">
+		<div id="wrapper-<?php echo $post->ID; ?>" class="tt-m-alt">
 			<input type="hidden" name="_wpnonce-<?php echo absint($post->ID); ?>" value="<?php echo wp_create_nonce('nonce-' . absint($post->ID)) ?>"/>
 			<input type="text" name="wpa_mc_qtx" class="large-text wpa_mc_qtx" id="wpa_mc_<?php echo absint($post->ID); ?>" value="<?php echo sanitize_text_field(wp_strip_all_tags(__(get_post_meta($post->ID, '_wp_attachment_image_alt', true)))); ?>"/>
 			<img class="waiting" src="<?php echo esc_url(admin_url("images/loading.gif")); ?>" style="display: none"/>
@@ -48,7 +48,6 @@ function wpa_media_field_input( $column ) {
 function wpa_media_display_column( $columns ) {
 	// Register the column to display
 	$columns['wpa_media-column'] = 'Alternative Text';
-
 	return $columns;
 }
 
@@ -60,9 +59,8 @@ add_action( 'admin_enqueue_scripts', 'wpa_alt_add_js' );
 
 function wpa_alt_add_js($hook) {
 	// Check if we are on upload.php and enqueue script
-	if($hook != 'upload.php') {
+	if($hook != 'upload.php')
 		return;
-	}
 	wp_enqueue_script('wpa_alt_js', plugin_dir_url(__FILE__) . 'alt.js', array('jquery'), 1.0, true);
 }
 
@@ -74,11 +72,12 @@ function wpa_media_update() {
 	$wpa_media_post_id  = absint(filter_input(INPUT_POST, 'post_id'));
 	$wpa_media_alt_text = wp_strip_all_tags(filter_input(INPUT_POST, 'alt_text'));
 	if( ! wp_verify_nonce(filter_input(INPUT_POST, '_wpnonce'), 'nonce-' . $wpa_media_post_id)) {
-		exit('Security check');
+		wp_send_json_error('Security check');
 	}
 
 	if( ! empty($wpa_media_alt_text)) {
 		update_post_meta($wpa_media_post_id, '_wp_attachment_image_alt', sanitize_text_field(wp_strip_all_tags($wpa_media_alt_text)));
+		wp_send_json_success('0');
 	}
 }
 add_action( 'wp_ajax_wpa_media_alt_update' , 'wpa_media_update' );
