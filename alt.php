@@ -36,11 +36,11 @@ function wpa_media_field_input( $column ) {
 	if($column == 'wpa_media-column') {
 		global $post;
 		?>
-		<div id="wrapper-<?php _e(absint($post->ID)); ?>" class="tt-m-alt">
-			<input type="hidden" name="_wpnonce-<?php _e(absint($post->ID)); ?>" value="<?php esc_html_e(wp_create_nonce('nonce-' . absint($post->ID))); ?>"/>
-			<label for="wpa_mc_<?php _e(absint($post->ID)); ?>"></label>
-			<input type="text" name="wpa_mc_qtx" class="large-text wpa_mc_qtx" id="wpa_mc_<?php _e(absint($post->ID)); ?>" value="<?php esc_html_e(get_post_meta($post->ID, '_wp_attachment_image_alt', true)); ?>"/>
-			<img alt="loading" class="waiting" src="<?php _e(esc_url(admin_url("images/loading.gif"))); ?>" style="display: none"/>
+		<div id="wrapper-<?php esc_attr_e(absint($post->ID)); ?>" class="tt-m-alt">
+			<input type="hidden" name="_wpnonce-<?php esc_attr_e(absint($post->ID)); ?>" value="<?php esc_html_e(wp_create_nonce('nonce-' . absint($post->ID))); ?>"/>
+			<label for="wpa_mc_<?php esc_attr_e(absint($post->ID)); ?>"></label>
+			<input type="text" name="wpa_mc_qtx" class="large-text wpa_mc_qtx" id="wpa_mc_<?php esc_attr_e(absint($post->ID)); ?>" value="<?php esc_html_e(get_post_meta($post->ID, '_wp_attachment_image_alt', true)); ?>"/>
+			<img alt="loading" class="waiting" src="<?php esc_attr_e(esc_url(admin_url("images/loading.gif"))); ?>" style="display: none"/>
 		</div>
 		<?php
 	}
