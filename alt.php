@@ -36,11 +36,11 @@ function wpa_media_field_input( $column ) {
 	if($column == 'wpa_media-column') {
 		global $post;
 		?>
-		<div id="wrapper-<?php echo absint($post->ID); ?>" class="tt-m-alt">
-			<input type="hidden" name="_wpnonce-<?php echo absint($post->ID); ?>" value="<?php echo wp_create_nonce('nonce-' . absint($post->ID)) ?>"/>
-			<label for="wpa_mc_<?php echo absint($post->ID); ?>"></label>
-			<input type="text" name="wpa_mc_qtx" class="large-text wpa_mc_qtx" id="wpa_mc_<?php echo absint($post->ID); ?>" value="<?php echo sanitize_text_field(wp_strip_all_tags(__(get_post_meta($post->ID, '_wp_attachment_image_alt', true)))); ?>"/>
-			<img alt="loading" class="waiting" src="<?php echo esc_url(admin_url("images/loading.gif")); ?>" style="display: none"/>
+		<div id="wrapper-<?php _e(absint($post->ID)); ?>" class="tt-m-alt">
+			<input type="hidden" name="_wpnonce-<?php _e(absint($post->ID)); ?>" value="<?php esc_html_e(wp_create_nonce('nonce-' . absint($post->ID))); ?>"/>
+			<label for="wpa_mc_<?php _e(absint($post->ID)); ?>"></label>
+			<input type="text" name="wpa_mc_qtx" class="large-text wpa_mc_qtx" id="wpa_mc_<?php _e(absint($post->ID)); ?>" value="<?php esc_html_e(get_post_meta($post->ID, '_wp_attachment_image_alt', true)); ?>"/>
+			<img alt="loading" class="waiting" src="<?php _e(esc_url(admin_url("images/loading.gif"))); ?>" style="display: none"/>
 		</div>
 		<?php
 	}
@@ -77,8 +77,8 @@ function wpa_media_update() {
 	}
 
 	if( ! empty($wpa_media_alt_text)) {
-		update_post_meta($wpa_media_post_id, '_wp_attachment_image_alt', sanitize_text_field(wp_strip_all_tags($wpa_media_alt_text)));
-		wp_send_json_success('0');
+		update_post_meta($wpa_media_post_id, '_wp_attachment_image_alt', esc_html($wpa_media_alt_text));
+		wp_send_json_success();
 	}
 }
 add_action( 'wp_ajax_wpa_media_alt_update' , 'wpa_media_update' );
